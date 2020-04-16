@@ -156,26 +156,25 @@ class Gem::Indexer
     say "Generating #{name} index"
 
     Gem.time "Generated #{name} index" do
-      open(file, 'wb') do |io|
-        specs = index.map do |*spec|
-          # We have to splat here because latest_specs is an array, while the
-          # others are hashes.
-          spec = spec.flatten.last
-          platform = spec.original_platform
+      specs = index.map do |*spec|
+        # We have to splat here because latest_specs is an array, while the
+        # others are hashes.
+        spec = spec.flatten.last
+        platform = spec.original_platform
 
-          # win32-api-1.0.4-x86-mswin32-60
-          unless String === platform
-            alert_warning "Skipping invalid platform in gem: #{spec.full_name}"
-            next
-          end
-
-          platform = Gem::Platform::RUBY if platform.nil? or platform.empty?
-          [spec.name, spec.version, platform]
+        # win32-api-1.0.4-x86-mswin32-60
+        unless String === platform
+          alert_warning "Skipping invalid platform in gem: #{spec.full_name}"
+          next
         end
 
-        specs = compact_specs(specs)
-        Marshal.dump(specs, io)
+        platform = Gem::Platform::RUBY if platform.nil? or platform.empty?
+        [spec.name, spec.version, platform]
       end
+
+      specs = compact_specs(specs)
+      data = Marshal.dump(specs)
+      Gem.write_binary(file, data)
     end
   end
 
