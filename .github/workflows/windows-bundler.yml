@@ -30,9 +30,13 @@ jobs:
           bin/rake spec:parallel_deps
         shell: bash
         working-directory: ./bundler
+      - uses: actions/checkout@v2
+        with:
+          repository: deivid-rodriguez/parallel_tests
+          ref: fix_fetch_issue
+          path: bundler/parallel_tests
       - name: Run specs
         run: |
-          bin/rspec spec/commands/exec_spec.rb:36
-          bin/parallel_rspec spec
+          parallel_tests/bin/parallel_rspec spec
         shell: bash
         working-directory: ./bundler
