@@ -32,7 +32,7 @@ RSpec.describe "Bundler.with_env helpers" do
     end
 
     it "works with nested bundle exec invocations" do
-      create_file("exe.rb", <<-'RB')
+      create_file("exe.rb", <<-'RUBY')
         count = ARGV.first.to_i
         exit if count < 0
         STDERR.puts "#{count} #{ENV["PATH"].end_with?("#{File::PATH_SEPARATOR}/foo")}"
@@ -40,7 +40,7 @@ RSpec.describe "Bundler.with_env helpers" do
           ENV["PATH"] = "#{ENV["PATH"]}#{File::PATH_SEPARATOR}/foo"
         end
         exec(Gem.ruby, __FILE__, (count - 1).to_s)
-      RB
+      RUBY
       path = `getconf PATH`.strip + File::PATH_SEPARATOR + File.dirname(Gem.ruby)
       with_path_as(path) do
         build_bundler_context
