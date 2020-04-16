@@ -9,8 +9,6 @@ on:
 
 jobs:
   jruby_bundler:
-    if: false
-
     runs-on: ubuntu-latest
 
     env:

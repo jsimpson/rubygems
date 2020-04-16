@@ -9,7 +9,6 @@ on:
 
 jobs:
   ubuntu_bundler3:
-    if: false
     runs-on: ubuntu-latest
     strategy:
       matrix:

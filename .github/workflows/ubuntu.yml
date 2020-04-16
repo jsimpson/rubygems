@@ -9,7 +9,6 @@ on:
 
 jobs:
   ubuntu:
-    if: false
     runs-on: ubuntu-latest
     strategy:
       matrix:
